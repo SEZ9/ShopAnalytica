@@ -18,7 +18,7 @@ Using DynamoDB zero-ETL for near real-time vectorization of business data, trans
 ## Deployment Documentation（部署文档）
 
 - [English Version](docs/en/deployment.md)
-- [中文版本](docs/zh/deployment.md)
+- [中文版本](docs/cn/deployment.md)
 
 ## workshop Preview
 
