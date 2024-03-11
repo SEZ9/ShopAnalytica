@@ -2,12 +2,14 @@ from opensearchpy import OpenSearch, RequestsHttpConnection, AWSV4SignerAuth
 import boto3
 import json
 
+opensearch_host = ""
+
 def product_recommend(input_text,language):
     # 构建bedrock与 es客户端
     credentials = boto3.Session().get_credentials()
     auth = AWSV4SignerAuth(credentials, 'us-east-1', 'es')
     esClient = OpenSearch(
-        hosts = [{'host': 'xxxxxxx.es.amazonaws.com', 'port': 443}],
+        hosts = [{'host': opensearch_host, 'port': 443}],
         http_auth = auth,
         use_ssl = True,
         verify_certs = True,
@@ -16,11 +18,11 @@ def product_recommend(input_text,language):
     )
     brt = boto3.client(service_name='bedrock-runtime')
     if language == 'en':
-        index = 'product-details-index'
+        index = 'product-details-index-en'
     else: 
         index = 'product-details-index-cn'
     query = {  
-      "size": 5,
+      "size": 10,
       "sort": [
         {
           "_score": {
@@ -35,8 +37,8 @@ def product_recommend(input_text,language):
         "neural": {
           "product_embedding": {
             "query_text": input_text,
-            "model_id": "xxxxx-9O0CcNs",
-            "k": 10
+            "model_id": "m6jIgowBXLzE-9O0CcNs",
+            "k": 13
           }
         }
       }
@@ -55,9 +57,9 @@ def product_recommend(input_text,language):
         }
     # llm 构建答案
     if language == 'en':
-        llm_prompt = 'Human: You are currently a professional clothing store assistant. The customer has asked you the following question: ' + input_text + ',You must respond to the customer inquiry using the provided information. Feel free to ask the customer for additional details if needed.' + str(es_res) + ' Assistant:'
+        llm_prompt = 'Human: You are currently a professional clothing store assistant. The customer has asked you the following question: ' + input_text + ',You must respond to the customer inquiry using the provided information. Feel free to ask the customer for additional details if needed. Has a wide variety of clothing options, especially for women\'s fashion' + str(es_res) + ' Assistant:'
     else: 
-        llm_prompt = 'Human: 你现在是一个导购客服，需要帮助客户推荐商品，根据商品的描述信息，给客户推荐具体的商品名称和编号. 客户的问题如下: ' + input_text + ',你必须基于以下商品信息进行推荐.适当的时候如果客户问题不清晰，可以反问一些关键信息.' + str(es_res) + ' Assistant:'
+        llm_prompt = 'Human: 你现在是一个导购客服，需要帮助客户推荐商品，根据商品的描述信息，给客户推荐具体的商品名称和编号. 客户的问题如下: ' + input_text + ',你必须基于以下商品信息进行推荐.适当的时候如果客户问题不清晰，可以反问一些关键信息.有各种各样的服装选择，尤其是女性时尚' + str(es_res) + ' Assistant:'
     
     llm_request_body = json.dumps({
         "prompt": llm_prompt,
@@ -82,7 +84,7 @@ def reviews_analytis(input_text,language):
     credentials = boto3.Session().get_credentials()
     auth = AWSV4SignerAuth(credentials, 'us-east-1', 'es')
     esClient = OpenSearch(
-        hosts = [{'host': 'xxxxx.us-east-1.es.amazonaws.com', 'port': 443}],
+        hosts = [{'host': opensearch_host, 'port': 443}],
         http_auth = auth,
         use_ssl = True,
         verify_certs = True,
@@ -103,8 +105,8 @@ def reviews_analytis(input_text,language):
             "neural": {
               "product_reviews_embedding": {
                 "query_text": input_text,
-                "model_id": "xxxxx-9O0CcNs",
-                "k": 10
+                "model_id": "m6jIgowBXLzE-9O0CcNs",
+                "k": 11
               }
             }
           }

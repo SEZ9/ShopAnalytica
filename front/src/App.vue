@@ -243,7 +243,7 @@ export default {
             this.spinShow = true;
             this.productInfo = '';
             // 发送POST请求
-            axios.post(APIURL + '?type=product_recommend&language='+this.language, {
+            axios.post(APIURL + '/recomm?type=product_recommend&language='+this.language, {
                 input_text: value
             }).then(response => {
                 // 处理响应数据
@@ -261,7 +261,7 @@ export default {
             this.spinShow = true;
             this.pmsInfo = '';
             // 发送POST请求
-            axios.post(APIURL+ '?type=reviews_analytis&language='+this.language, {
+            axios.post(APIURL+ '/recomm?type=reviews_analytis&language='+this.language, {
                 input_text: value
             }).then(response => {
                 // 处理响应数据
@@ -285,7 +285,7 @@ export default {
         },
         fetchProductData() {
             this.proItems = []
-            axios.get(APIURL+'?type=get_products&language='+this.language)
+            axios.get(APIURL+'/shop?type=get_products&language='+this.language)
                 .then(response => {
                 this.proItems = response.data;
             })
@@ -297,7 +297,7 @@ export default {
             console.log(value)
             this.showReviews = false
             this.selectProduct = value
-            axios.get(APIURL + '?type=get_product_reviews&language=' + this.language + '&product_id=' + value.ProductID)
+            axios.get(APIURL + '/shop?type=get_product_reviews&language=' + this.language + '&product_id=' + value.ProductID)
                 .then(response => {
                 this.showReviews = true
                 this.mesItems = response.data;
@@ -322,7 +322,7 @@ export default {
             console.log(this.generateRandomString(6))
             
             // 发送POST请求
-            axios.post(APIURL+ '/e-com?type=add_product_review&language='+this.language, 
+            axios.post(APIURL+ '/shop?type=add_product_review&language='+this.language, 
             {
                 'product_id':  this.selectProduct.ProductID,
                 'product_name': this.selectProduct.ProductName,
