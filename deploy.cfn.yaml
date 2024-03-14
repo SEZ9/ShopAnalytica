@@ -275,7 +275,7 @@ Resources:
     Properties:
       Handler: lambda_handler_bedrock.lambda_handler
       Role: !GetAtt LambdaExecutionRole.Arn
-      Runtime: python3.11
+      Runtime: python3.12
       Code:
         ZipFile: |
           from opensearchpy import OpenSearch, RequestsHttpConnection, AWSV4SignerAuth
@@ -628,6 +628,9 @@ Outputs:
   OpensearchIAMRoleARN:
     Description: "ARN of the Opensearch IAM Role"
     Value: !GetAtt MyAuthenticatedRole.Arn
+  LambdaIAMRoleARN:
+    Description: "ARN of the Lambda IAM Role"
+    Value: !GetAtt LambdaExecutionRole.Arn
   DynamoDBETLRoleARN:
     Description: "ARN of the DynamoDB ETL Role"
     Value: !GetAtt DynamoDBETLRole.Arn
