@@ -11,6 +11,8 @@ Using DynamoDB zero-ETL for near real-time vectorization of business data, trans
 
 利用DynamoDB zero-ETL技术进行业务数据的准实时向量化，将其传输至OpenSearch。同时结合Bedrock嵌入式模型和LLM模型进行产品推荐以及对客户评论的情感分析。
 
+AWS Workshop 公开站点 https://catalog.us-east-1.prod.workshops.aws/workshops/b223ce62-8d75-4474-a6b7-34ba77575cfc/zh-CN
+
 ## Architecture Overview （架构概览）
 
 ![Alt text](workshop-ddb-opensearch-llm.jpg)
